@@ -17,6 +17,12 @@
     zuul_build_depends: "{{ __zuul_build_depends | list }}"
   when: zuul_build_depends is not defined
 
+- name: Install epel & ius repos on centos
+  shell: yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+  args:
+    creates: /etc/yum.repos.d/ius.repo
+  when: ansible_distribution == "CentOS"
+
 - name: Ensure build dependencies are installed.
   become: true
   package:
